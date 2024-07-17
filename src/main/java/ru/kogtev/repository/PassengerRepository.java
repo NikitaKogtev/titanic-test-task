@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import ru.kogtev.model.Passenger;
 
 @Repository
-public interface PassengerRepository extends JpaRepository<Passenger,Integer> {
+public interface PassengerRepository extends JpaRepository<Passenger, Integer> {
 
 }

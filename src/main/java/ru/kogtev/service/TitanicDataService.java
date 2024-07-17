@@ -36,11 +36,13 @@ public class TitanicDataService {
     }
 
     @PostConstruct
-    @CacheEvict(value = "passengersInfo", allEntries = true)
     public void savePassengersToData() {
         List<Passenger> passengers = loadPassengersFromCsv();
-        passengerRepository.saveAll(passengers);
-        logger.info("Passengers successful save into DB");
+
+        if (passengerRepository.count() == 0) {
+            passengerRepository.saveAll(passengers);
+            logger.info("Passengers successful save into DB");
+        }
     }
 
     public List<Passenger> loadPassengersFromCsv() {
@@ -50,17 +52,17 @@ public class TitanicDataService {
             bufferedReader.readLine();
             while ((line = bufferedReader.readLine()) != null) {
                 String[] parts = line.split(SEPARATOR);
-                Passenger passenger = new Passenger.Builder()
-                        .survived(parts[0].equals(ONE))
-                        .pClass(PClass.values()[Integer.parseInt(parts[1]) - 1])
-                        .name(parts[2])
-                        .sex(Sex.valueOf(parts[3].toUpperCase()))
-                        .age((int) Double.parseDouble(parts[4]))
-                        .siblingsSpousesAboard(Integer.parseInt(parts[5]))
-                        .parentsChildrenAboard(Integer.parseInt(parts[6]))
-                        .fare(Double.parseDouble(parts[7]))
-                        .build();
+                Passenger passenger = new Passenger();
+                        passenger.setSurvived(parts[0].equals(ONE));
+                        passenger.setPClass(PClass.values()[Integer.parseInt(parts[1]) - 1]);
+                        passenger.setName(parts[2]);
+                        passenger.setSex(Sex.valueOf(parts[3].toUpperCase()));
+                        passenger.setAge((int) Double.parseDouble(parts[4]));
+                        passenger.setSiblingsSpousesAboard(Integer.parseInt(parts[5]));
+                        passenger.setParentsChildrenAboard(Integer.parseInt(parts[6]));
+                        passenger.setFare(Double.parseDouble(parts[7]));
                 passengers.add(passenger);
+                logger.info("passengers");
             }
         } catch (IOException e) {
             logger.error("Input/Output problem with csv file: {}", e.getMessage());
