@@ -1,0 +1,55 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: nikitakogtev
+      changes:
+        - createTable:
+            tableName: passenger
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: survived
+                  type: boolean
+                  constraints:
+                     nullable: false
+              - column:
+                  name: pclass
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: sex
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: age
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: siblings_spouses_aboard
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: parents_children_aboard
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: fare
+                  type: float
+                  constraints:
+                    nullable: false
