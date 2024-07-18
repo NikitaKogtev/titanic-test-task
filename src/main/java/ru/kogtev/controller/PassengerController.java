@@ -37,6 +37,10 @@ public class PassengerController {
 
         Page<Passenger> passengers = passengerService.searchPassengers(searchName, pageable);
 
+        Double totalFare = passengerService.getTotalFare(searchName);
+        Long relativesCount = passengerService.getRelativesCount(searchName);
+        Long survivorsCount = passengerService.getSurvivorsCount(searchName);
+
         model.addAttribute("passengers", passengers);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", passengers.getTotalPages());
@@ -44,6 +48,9 @@ public class PassengerController {
         model.addAttribute("sortBy", sortBy);
         model.addAttribute("sortOrder", sortOrder);
         model.addAttribute("searchName", searchName);
+        model.addAttribute("totalFare", totalFare);
+        model.addAttribute("relativesCount", relativesCount);
+        model.addAttribute("survivorsCount", survivorsCount);
         return "passengers";
     }
 }

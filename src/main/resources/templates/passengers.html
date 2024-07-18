@@ -98,6 +98,14 @@
             <button type="submit">Обновить</button>
         </form>
     </div>
+
+    <!-- Статистика -->
+    <div class="statistics">
+        <h2>Статистика:</h2>
+        <p>Общая сумма оплаты проезда: <span th:text="${totalFare}"></span></p>
+        <p>Количество людей с родственниками на борту: <span th:text="${relativesCount}"></span></p>
+        <p>Количество выживших на борту: <span th:text="${survivorsCount}"></span></p>
+    </div>
 </div>
 </body>
 </html>
