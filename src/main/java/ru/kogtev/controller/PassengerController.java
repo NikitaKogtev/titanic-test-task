@@ -25,16 +25,25 @@ public class PassengerController {
     @GetMapping("/passengers")
     public String showPassengersPage(
             @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "50") int size, // Размер страницы
+            @RequestParam(value = "size", defaultValue = "50") int size,
+            @RequestParam(value = "sortBy", defaultValue = "name") String sortBy,
+            @RequestParam(value = "sortOrder", defaultValue = "ASC") String sortOrder,
+            @RequestParam(value = "name", required = false) String searchName,
             Model model
     ) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("name")); // Сортировка по имени
-        Page<Passenger> passengers = passengerService.getAllPassengers(pageable); // Получение пассажиров
+        Sort.Direction direction = sortOrder.equalsIgnoreCase("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<Passenger> passengers = passengerService.searchPassengers(searchName, pageable);
 
         model.addAttribute("passengers", passengers);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", passengers.getTotalPages());
-        model.addAttribute("pageSize", size); // Передача размера страницы в модель
+        model.addAttribute("pageSize", size);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("sortOrder", sortOrder);
+        model.addAttribute("searchName", searchName);
         return "passengers";
     }
 }

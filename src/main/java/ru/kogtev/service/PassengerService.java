@@ -8,8 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.kogtev.model.Passenger;
 import ru.kogtev.repository.PassengerRepository;
 
-import java.util.List;
-
 @Service
 @Transactional(readOnly = true)
 public class PassengerService {
@@ -20,7 +18,11 @@ public class PassengerService {
         this.passengerRepository = passengerRepository;
     }
 
-    public Page<Passenger> getAllPassengers(Pageable pageable) {
-        return passengerRepository.findAll(pageable); // Получение всех пассажиров с пагинацией
+    public Page<Passenger> searchPassengers(String searchName, Pageable pageable) {
+        if (searchName != null && !searchName.isEmpty()) {
+            return passengerRepository.findByNameContainingIgnoreCase(searchName, pageable);
+        } else {
+            return passengerRepository.findAll(pageable);
+        }
     }
 }
