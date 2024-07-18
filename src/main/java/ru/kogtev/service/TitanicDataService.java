@@ -62,7 +62,6 @@ public class TitanicDataService {
                         passenger.setParentsChildrenAboard(Integer.parseInt(parts[6]));
                         passenger.setFare(Double.parseDouble(parts[7]));
                 passengers.add(passenger);
-                logger.info("passengers");
             }
         } catch (IOException e) {
             logger.error("Input/Output problem with csv file: {}", e.getMessage());

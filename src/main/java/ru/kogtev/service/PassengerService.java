@@ -1,6 +1,8 @@
 package ru.kogtev.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kogtev.model.Passenger;
@@ -18,7 +20,7 @@ public class PassengerService {
         this.passengerRepository = passengerRepository;
     }
 
-    public List<Passenger> getAllPassengers() {
-        return passengerRepository.findAll();
+    public Page<Passenger> getAllPassengers(Pageable pageable) {
+        return passengerRepository.findAll(pageable); // Получение всех пассажиров с пагинацией
     }
 }
