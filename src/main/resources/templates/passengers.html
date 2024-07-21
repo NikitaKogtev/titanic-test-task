@@ -10,11 +10,54 @@
 <div class="container">
     <h1>Список пассажиров Титаника</h1>
 
-    <!-- Форма поиска -->
-    <form th:action="@{/passengers}" method="GET">
-        <!-- Поле ввода для имени -->
-        <input type="text" name="name" placeholder="Поиск по имени" th:value="${searchName}">
-        <button type="submit">Поиск</button>
+    <!-- Форма для поиска и фильтрации -->
+    <form class="mb-4" th:action="@{/passengers}" method="get">
+        <div class="row">
+            <div class="col-md-4">
+                <label>
+                    <input type="text" class="form-control" name="name" placeholder="Поиск по имени"
+                           th:value="${param.name}">
+                </label>
+            </div>
+            <div class="col-md-2">
+                <label>
+                    <select class="form-control" name="survived">
+                        <option value="">Выжившие</option>
+                        <option value="true" th:selected="${param.survived == 'true'}">Да</option>
+                        <option value="false" th:selected="${param.survived == 'false'}">Нет</option>
+                    </select>
+                </label>
+            </div>
+            <div class="col-md-2">
+                <label>
+                    <input type="number" class="form-control" name="minAge" placeholder="Возраст от"
+                           th:value="${param.minAge}">
+                </label>
+            </div>
+            <div class="col-md-2">
+                <label>
+                    <select class="form-control" name="sex">
+                        <option value="">Пол</option>
+                        <option value="MALE" th:selected="${param.sex == 'MALE'}">Мужской</option>
+                        <option value="FEMALE" th:selected="${param.sex == 'FEMALE'}">Женский</option>
+                    </select>
+                </label>
+            </div>
+            <div class="col-md-2">
+                <label>
+                    <select class="form-control" name="hasRelatives">
+                        <option value="">Родственники</option>
+                        <option value="true" th:selected="${param.hasRelatives == 'true'}">Есть</option>
+                        <option value="false" th:selected="${param.hasRelatives == 'false'}">Нет</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary">Применить фильтры</button>
+            </div>
+        </div>
     </form>
 
     <!-- Таблица пассажиров -->

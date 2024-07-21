@@ -4,7 +4,6 @@ import jakarta.annotation.PostConstruct;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kogtev.model.PClass;
@@ -53,14 +52,14 @@ public class TitanicDataService {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] parts = line.split(SEPARATOR);
                 Passenger passenger = new Passenger();
-                        passenger.setSurvived(parts[0].equals(ONE));
-                        passenger.setPClass(PClass.values()[Integer.parseInt(parts[1]) - 1]);
-                        passenger.setName(parts[2]);
-                        passenger.setSex(Sex.valueOf(parts[3].toUpperCase()));
-                        passenger.setAge((int) Double.parseDouble(parts[4]));
-                        passenger.setSiblingsSpousesAboard(Integer.parseInt(parts[5]));
-                        passenger.setParentsChildrenAboard(Integer.parseInt(parts[6]));
-                        passenger.setFare(Double.parseDouble(parts[7]));
+                passenger.setSurvived(parts[0].equals(ONE));
+                passenger.setPClass(PClass.values()[Integer.parseInt(parts[1]) - 1]);
+                passenger.setName(parts[2]);
+                passenger.setSex(Sex.valueOf(parts[3].toUpperCase()));
+                passenger.setAge((int) Double.parseDouble(parts[4]));
+                passenger.setSiblingsSpousesAboard(Integer.parseInt(parts[5]));
+                passenger.setParentsChildrenAboard(Integer.parseInt(parts[6]));
+                passenger.setFare(Double.parseDouble(parts[7]));
                 passengers.add(passenger);
             }
         } catch (IOException e) {
