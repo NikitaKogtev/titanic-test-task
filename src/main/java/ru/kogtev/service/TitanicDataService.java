@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kogtev.model.PClass;
@@ -18,6 +19,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Сервис для загрузки и сохранения данных о пассажирах Титаника в базу данных.
+ */
 @Service
 @Transactional(readOnly = true)
 public class TitanicDataService {
@@ -34,21 +38,40 @@ public class TitanicDataService {
         this.passengerRepository = passengerRepository;
     }
 
+    /**
+     * Метод, который вызывается после создания бина для сохранения данных о пассажирах из CSV файла в базу данных.
+     * Если пассажиры уже есть в базе, они не будут сохранены повторно.
+     */
     @PostConstruct
     public void savePassengersToData() {
+        logger.info("Starting to load passengers from CSV.");
+
         List<Passenger> passengers = loadPassengersFromCsv();
 
         if (passengerRepository.count() == 0) {
+            logger.info("Saving passengers to the database.");
             passengerRepository.saveAll(passengers);
             logger.info("Passengers successful save into DB");
+        } else {
+            logger.info("Passengers already exist in the database.");
         }
     }
 
+    /**
+     * Метод для загрузки данных о пассажирах из CSV файла в базу данных.
+     * Кэшируется результат для улучшения производительности.
+     *
+     * @return Список объектов Passenger
+     */
+    @CacheEvict(value = "passengers", allEntries = true)
     public List<Passenger> loadPassengersFromCsv() {
         List<Passenger> passengers = new ArrayList<>();
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new URL(FILE_URL).openStream()))) {
             String line;
             bufferedReader.readLine();
+
+            logger.info("Reading passengers data from CSV.");
+
             while ((line = bufferedReader.readLine()) != null) {
                 String[] parts = line.split(SEPARATOR);
                 Passenger passenger = new Passenger();
@@ -62,8 +85,9 @@ public class TitanicDataService {
                 passenger.setFare(Double.parseDouble(parts[7]));
                 passengers.add(passenger);
             }
+            logger.info("Successfully read {} passengers from CSV.", passengers.size());
         } catch (IOException e) {
-            logger.error("Input/Output problem with csv file: {}", e.getMessage());
+            logger.error("Input/Output problem with CSV file: {}", e.getMessage());
         }
         return passengers;
     }

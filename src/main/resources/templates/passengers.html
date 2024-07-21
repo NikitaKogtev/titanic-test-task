@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Список пассажиров Титаника</title>
-    <link rel="stylesheet" href="style.css" th:href="@{/style.css}">
+    <!-- Подключение Bootstrap или других CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container">
@@ -61,40 +62,39 @@
     </form>
 
     <!-- Таблица пассажиров -->
-    <table id="passengerTable">
+    <table class="table table-bordered" id="passengerTable">
         <thead>
         <tr>
             <!-- Сортировка по имени -->
             <th th:if="${sortBy == 'name'}">
-                <a th:href="@{/passengers(sortBy='name', sortOrder=${sortOrder == 'ASC' ? 'DESC' : 'ASC'}, page=${currentPage}, size=${pageSize}, name=${searchName})}">Имя</a>
+                <a th:href="@{/passengers(sortBy='name', sortOrder=${sortOrder == 'ASC' ? 'DESC' : 'ASC'}, page=${currentPage}, size=${pageSize}, name=${param.name})}">Имя</a>
                 <span th:if="${sortOrder == 'ASC'}">↑</span>
                 <span th:if="${sortOrder == 'DESC'}">↓</span>
             </th>
             <th th:unless="${sortBy == 'name'}">
-                <a th:href="@{/passengers(sortBy='name', sortOrder='ASC', page=${currentPage}, size=${pageSize}, name=${searchName})}">Имя</a>
+                <a th:href="@{/passengers(sortBy='name', sortOrder='ASC', page=${currentPage}, size=${pageSize}, name=${param.name})}">Имя</a>
             </th>
 
             <!-- Сортировка по возрасту -->
             <th th:if="${sortBy == 'age'}">
-                <a th:href="@{/passengers(sortBy='age', sortOrder=${sortOrder == 'ASC' ? 'DESC' : 'ASC'}, page=${currentPage}, size=${pageSize}, name=${searchName})}">Возраст</a>
+                <a th:href="@{/passengers(sortBy='age', sortOrder=${sortOrder == 'ASC' ? 'DESC' : 'ASC'}, page=${currentPage}, size=${pageSize}, name=${param.name})}">Возраст</a>
                 <span th:if="${sortOrder == 'ASC'}">↑</span>
                 <span th:if="${sortOrder == 'DESC'}">↓</span>
             </th>
             <th th:unless="${sortBy == 'age'}">
-                <a th:href="@{/passengers(sortBy='age', sortOrder='ASC', page=${currentPage}, size=${pageSize}, name=${searchName})}">Возраст</a>
+                <a th:href="@{/passengers(sortBy='age', sortOrder='ASC', page=${currentPage}, size=${pageSize}, name=${param.name})}">Возраст</a>
             </th>
 
             <!-- Сортировка по оплате -->
             <th th:if="${sortBy == 'fare'}">
-                <a th:href="@{/passengers(sortBy='fare', sortOrder=${sortOrder == 'ASC' ? 'DESC' : 'ASC'}, page=${currentPage}, size=${pageSize}, name=${searchName})}">Оплата</a>
+                <a th:href="@{/passengers(sortBy='fare', sortOrder=${sortOrder == 'ASC' ? 'DESC' : 'ASC'}, page=${currentPage}, size=${pageSize}, name=${param.name})}">Оплата</a>
                 <span th:if="${sortOrder == 'ASC'}">↑</span>
                 <span th:if="${sortOrder == 'DESC'}">↓</span>
             </th>
             <th th:unless="${sortBy == 'fare'}">
-                <a th:href="@{/passengers(sortBy='fare', sortOrder='ASC', page=${currentPage}, size=${pageSize}, name=${searchName})}">Оплата</a>
+                <a th:href="@{/passengers(sortBy='fare', sortOrder='ASC', page=${currentPage}, size=${pageSize}, name=${param.name})}">Оплата</a>
             </th>
 
-            </th>
             <th>Пол</th>
             <th>Класс</th>
             <th>Выжил</th>
@@ -118,12 +118,12 @@
     <!-- Пагинация -->
     <div class="pagination">
         <!-- Ссылка на предыдущую страницу -->
-        <a th:href="@{/passengers(page=${currentPage - 1}, size=${pageSize}, sortBy=${sortBy}, sortOrder=${sortOrder}, name=${searchName})}"
+        <a th:href="@{/passengers(page=${currentPage - 1}, size=${pageSize}, sortBy=${sortBy}, sortOrder=${sortOrder}, name=${param.name})}"
            th:if="${currentPage > 0}">Предыдущая страница</a>
         <!-- Текущая страница -->
         <span th:text="${currentPage + 1}"></span>
         <!-- Ссылка на следующую страницу -->
-        <a th:href="@{/passengers(page=${currentPage + 1}, size=${pageSize}, sortBy=${sortBy}, sortOrder=${sortOrder}, name=${searchName})}"
+        <a th:href="@{/passengers(page=${currentPage + 1}, size=${pageSize}, sortBy=${sortBy}, sortOrder=${sortOrder}, name=${param.name})}"
            th:if="${currentPage < totalPages - 1}">Следующая страница</a>
     </div>
 

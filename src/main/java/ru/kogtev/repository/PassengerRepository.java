@@ -32,7 +32,8 @@ public interface PassengerRepository extends JpaRepository<Passenger, Integer> {
     @Query("SELECT SUM(p.fare) FROM Passenger p")
     Double getTotalFare();
 
-    @Query("SELECT COUNT(p.id) FROM Passenger p WHERE (p.siblingsSpousesAboard > 0 OR p.parentsChildrenAboard > 0) AND p.name LIKE %:name%")
+    @Query("SELECT COUNT(p.id) FROM Passenger p WHERE (p.siblingsSpousesAboard > 0 OR p.parentsChildrenAboard > 0) " +
+            "AND p.name LIKE %:name%")
     Long getRelativesCountByNameContaining(@Param("name") String name);
 
     @Query("SELECT COUNT(p.id) FROM Passenger p WHERE p.siblingsSpousesAboard > 0 OR p.parentsChildrenAboard > 0")

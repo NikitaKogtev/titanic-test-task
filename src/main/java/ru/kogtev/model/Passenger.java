@@ -2,6 +2,9 @@ package ru.kogtev.model;
 
 import jakarta.persistence.*;
 
+/**
+ * Представляет пассажира, который находится на борту.
+ */
 @Entity
 @Table(name = "passenger")
 public class Passenger {
@@ -41,9 +44,8 @@ public class Passenger {
 
     }
 
-    public Passenger(Integer id, Boolean survived, PClass pClass, String name, Sex sex, Integer age,
+    public Passenger(Boolean survived, PClass pClass, String name, Sex sex, Integer age,
                      Integer siblingsSpousesAboard, Integer parentsChildrenAboard, Double fare) {
-        this.id = id;
         this.survived = survived;
         this.pClass = pClass;
         this.name = name;
